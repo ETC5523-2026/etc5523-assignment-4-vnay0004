@@ -1,0 +1,23 @@
+Package: a4
+Title: Interactive Data Exploration for ETC5523 Assignment 4
+Version: 0.1.0
+Authors@R: 
+    person("Vaishnav", "Nayak", , "vnay0004@student.monash.edu", role = c("aut", "cre"))
+Description: Provides a prepared dataset, a summary function, and a Shiny
+    app for exploring the data. This description will be updated once the
+    dataset and intended user are finalised.
+License: MIT + file LICENSE
+URL: https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/,
+    https://github.com/ETC5523-2026/etc5523-assignment-4-vnay0004
+BugReports: https://github.com/ETC5523-2026/etc5523-assignment-4-vnay0004/issues
+Depends: 
+    R (>= 4.1.0)
+Imports: 
+    bslib,
+    dplyr,
+    ggplot2,
+    shiny
+Config/roxygen2/version: 8.1.1
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
