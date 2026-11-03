@@ -16,7 +16,9 @@ Imports:
     bslib,
     dplyr,
     ggplot2,
-    shiny
+    shiny,
+    stats,
+    utils
 Config/roxygen2/version: 8.1.1
 Encoding: UTF-8
 LazyData: true
