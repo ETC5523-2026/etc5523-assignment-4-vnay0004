@@ -1,53 +1,82 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# a4
+# a4: WPL batting styles explorer
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-The goal of a4 is to …
+`a4` helps a **Women’s Premier League (WPL) franchise analyst preparing
+for the player auction** answer one question:
+
+> In a given season, which batters score quickly without wasting balls,
+> and how do they compare with the rest of the league?
+
+The package contains:
+
+- **`wpl_batters`**: season-level batting summaries for every WPL batter
+  who faced at least 20 balls in a season (2022/23 to 2025/26);
+- **`batting_profile()`**: compares batters with the league median for a
+  season and labels each batter’s scoring style (attacking, rotator,
+  boundary-reliant or low tempo); and
+- **`run_app()`**: launches an interactive Shiny app built on the data
+  and function.
+
+**Documentation website:**
+<https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/>
 
 ## Installation
 
-You can install the development version of a4 from
-[GitHub](https://github.com/) with:
+Install the package from GitHub:
 
 ``` r
-# install.packages("pak")
-pak::pak("ETC5523-2026/etc5523-assignment-4-vnay0004")
+# install.packages("remotes")
+remotes::install_github("ETC5523-2026/etc5523-assignment-4-vnay0004")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+## Launch the app
 
 ``` r
 library(a4)
-## basic example code
+run_app()
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+Choose a season, optionally a team, and a minimum number of balls faced.
+Batters in the **upper-left** of the chart score more boundaries and
+face fewer dot balls than the league median.
+
+## Use the function directly
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(a4)
+
+batting_profile(wpl_batters, "2024/25", min_balls = 100) |>
+  head()
+#> # A tibble: 6 × 17
+#>   season  batting_team   batter innings  runs balls_faced dismissals fours sixes
+#>   <chr>   <chr>          <chr>    <int> <int>       <int>      <int> <int> <int>
+#> 1 2024/25 Mumbai Indians NR Sc…      10   523         343          8    84     4
+#> 2 2024/25 Royal Challen… EA Pe…       8   372         250          4    40    11
+#> 3 2024/25 Mumbai Indians HK Ma…      10   307         250         10    42     9
+#> 4 2024/25 Delhi Capitals Shafa…       9   304         199          8    34    16
+#> 5 2024/25 Mumbai Indians H Kaur      10   302         195          9    38    11
+#> 6 2024/25 Delhi Capitals MM La…       9   276         232          8    45     1
+#> # ℹ 8 more variables: dot_balls <int>, strike_rate <dbl>, dot_percent <dbl>,
+#> #   boundary_percent <dbl>, average <dbl>, median_dot_percent <dbl>,
+#> #   median_boundary_percent <dbl>, style <chr>
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+## Data
 
-You can also embed plots, for example:
+Ball-by-ball data come from [Cricsheet](https://cricsheet.org), accessed
+through the
+[`cricketdata`](https://cran.r-project.org/package=cricketdata) R
+package, and are used under the [Open Data Commons Attribution License
+(ODC-BY 1.0)](https://opendatacommons.org/licenses/by/1-0/).
 
-<img src="man/figures/README-pressure-1.png" alt="" width="100%" />
+The script `data-raw/wpl_batters.R` downloads the ball-by-ball records
+and summarises them to one row per batter, team and season. See
+`?wpl_batters` for a full description of every column.
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+**Interpret with care:** batting rates ignore

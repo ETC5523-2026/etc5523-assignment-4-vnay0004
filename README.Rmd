@@ -13,43 +13,54 @@ knitr::opts_chunk$set(
 )
 ```
 
-# a4
+# a4: WPL batting styles explorer
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of a4 is to ...
+`a4` helps a **Women's Premier League (WPL) franchise analyst preparing for the player auction** answer one question:
+
+> In a given season, which batters score quickly without wasting balls, and how do they compare with the rest of the league?
+
+The package contains:
+
+- **`wpl_batters`**: season-level batting summaries for every WPL batter who faced at least 20 balls in a season (2022/23 to 2025/26);
+- **`batting_profile()`**: compares batters with the league median for a season and labels each batter's scoring style (attacking, rotator, boundary-reliant or low tempo); and
+- **`run_app()`**: launches an interactive Shiny app built on the data and function.
+
+**Documentation website:** <https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/>
 
 ## Installation
 
-You can install the development version of a4 from [GitHub](https://github.com/) with:
+Install the package from GitHub:
 
-``` r
-# install.packages("pak")
-pak::pak("ETC5523-2026/etc5523-assignment-4-vnay0004")
+```r
+# install.packages("remotes")
+remotes::install_github("ETC5523-2026/etc5523-assignment-4-vnay0004")
 ```
 
-## Example
+## Launch the app
 
-This is a basic example which shows you how to solve a common problem:
+```r
+library(a4)
+run_app()
+```
+
+Choose a season, optionally a team, and a minimum number of balls faced. Batters in the **upper-left** of the chart score more boundaries and face fewer dot balls than the league median.
+
+## Use the function directly
 
 ```{r example}
 library(a4)
-## basic example code
+
+batting_profile(wpl_batters, "2024/25", min_balls = 100) |>
+  head()
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+## Data
 
-```{r cars}
-summary(cars)
-```
+Ball-by-ball data come from [Cricsheet](https://cricsheet.org), accessed through the [`cricketdata`](https://cran.r-project.org/package=cricketdata) R package, and are used under the [Open Data Commons Attribution License (ODC-BY 1.0)](https://opendatacommons.org/licenses/by/1-0/).
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+The script `data-raw/wpl_batters.R` downloads the ball-by-ball records and summarises them to one row per batter, team and season. See `?wpl_batters` for a full description of every column.
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+**Interpret with care:** batting rates ignore
