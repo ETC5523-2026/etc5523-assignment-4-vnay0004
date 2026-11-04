@@ -32,6 +32,7 @@ app_theme <- bs_theme(
 ui <- page_sidebar(
   title = "WPL batting styles: who scores quickly without wasting balls?",
   theme = app_theme,
+  fillable = FALSE,
 
   sidebar = sidebar(
     width = 310,
@@ -43,7 +44,7 @@ ui <- page_sidebar(
     helpText("Focus on one franchise. Batters are still compared with the whole league."),
 
     sliderInput("min_balls", "Minimum balls faced",
-                min = 20, max = 300, value = 50, step = 10),
+                min = 20, max = 300, value = 50, step = 10, ticks = FALSE),
     helpText("Raise this to exclude small samples, whose percentages can be misleading.")
   ),
 
@@ -156,8 +157,8 @@ server <- function(input, output, session) {
       scale_size(range = c(2, 9)) +
       scale_x_continuous(labels = function(x) paste0(x, "%")) +
       scale_y_continuous(labels = function(x) paste0(x, "%")) +
-      labs(x = "Dot-ball percentage (lower is better)",
-           y = "Boundary percentage (higher is better)",
+            labs(x = "Dot-ball % (lower is better)",
+           y = "Boundary % (higher is better)",
            colour = "Batting style", shape = "Batting style",
            size = "Balls faced") +
       theme_minimal(base_size = 15) +
