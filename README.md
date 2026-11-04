@@ -79,4 +79,34 @@ The script `data-raw/wpl_batters.R` downloads the ball-by-ball records
 and summarises them to one row per batter, team and season. See
 `?wpl_batters` for a full description of every column.
 
-**Interpret with care:** batting rates ignore
+**Interpret with care:** batting rates ignore batting position, match
+situation and opposition strength, and styles are defined relative to
+each season’s median.
+
+## Learn more
+
+- [Using the WPL batting styles
+  app](https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/articles/using-the-app.html):
+  a step-by-step guide to installing, launching, using and interpreting
+  the app.
+- [Function and data
+  reference](https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/reference/index.html)
+
+## Generative AI declaration
+
+I used GENAI while preparing this assignment. Specifically, I used it
+to:
+
+- set up the package structure, licence and `DESCRIPTION` file;
+- draft the roxygen2 documentation, this README, the vignette (including
+  the interpretation and limitations sections) and the pkgdown
+  configuration;
+- diagnose errors, including an empty-repository push failure, a masked
+  function in my workspace that caused `filter()` to resolve to
+  `stats::filter()`, an app layout problem, and an incorrect
+  Bioconductor link on the pkgdown site.
+
+I ran and tested all code, checked the calculated figures against the
+package data, and confirmed that `devtools::check()` passes and the app
+works after installation from GitHub. I am responsible for all submitted
+work.

@@ -1,66 +1,109 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
 
 # a4: WPL batting styles explorer
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
-`a4` helps a **Women's Premier League (WPL) franchise analyst preparing for the player auction** answer one question:
+`a4` helps a **Women’s Premier League (WPL) franchise analyst preparing
+for the player auction** answer one question:
 
-> In a given season, which batters score quickly without wasting balls, and how do they compare with the rest of the league?
+> In a given season, which batters score quickly without wasting balls,
+> and how do they compare with the rest of the league?
 
 The package contains:
 
-- **`wpl_batters`**: season-level batting summaries for every WPL batter who faced at least 20 balls in a season (2022/23 to 2025/26);
-- **`batting_profile()`**: compares batters with the league median for a season and labels each batter's scoring style (attacking, rotator, boundary-reliant or low tempo); and
-- **`run_app()`**: launches an interactive Shiny app built on the data and function.
+- **`wpl_batters`**: season-level batting summaries for every WPL batter
+  who faced at least 20 balls in a season (2022/23 to 2025/26);
+- **`batting_profile()`**: compares batters with the league median for a
+  season and labels each batter’s scoring style (attacking, rotator,
+  boundary-reliant or low tempo); and
+- **`run_app()`**: launches an interactive Shiny app built on the data
+  and function.
 
-**Documentation website:** <https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/>
+**Documentation website:**
+<https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/>
 
 ## Installation
 
 Install the package from GitHub:
 
-```r
+``` r
 # install.packages("remotes")
 remotes::install_github("ETC5523-2026/etc5523-assignment-4-vnay0004")
 ```
 
 ## Launch the app
 
-```r
+``` r
 library(a4)
 run_app()
 ```
 
-Choose a season, optionally a team, and a minimum number of balls faced. Batters in the **upper-left** of the chart score more boundaries and face fewer dot balls than the league median.
+Choose a season, optionally a team, and a minimum number of balls faced.
+Batters in the **upper-left** of the chart score more boundaries and
+face fewer dot balls than the league median.
 
 ## Use the function directly
 
-```{r example}
+``` r
 library(a4)
 
 batting_profile(wpl_batters, "2024/25", min_balls = 100) |>
   head()
+#> # A tibble: 6 × 17
+#>   season  batting_team   batter innings  runs balls_faced dismissals fours sixes
+#>   <chr>   <chr>          <chr>    <int> <int>       <int>      <int> <int> <int>
+#> 1 2024/25 Mumbai Indians NR Sc…      10   523         343          8    84     4
+#> 2 2024/25 Royal Challen… EA Pe…       8   372         250          4    40    11
+#> 3 2024/25 Mumbai Indians HK Ma…      10   307         250         10    42     9
+#> 4 2024/25 Delhi Capitals Shafa…       9   304         199          8    34    16
+#> 5 2024/25 Mumbai Indians H Kaur      10   302         195          9    38    11
+#> 6 2024/25 Delhi Capitals MM La…       9   276         232          8    45     1
+#> # ℹ 8 more variables: dot_balls <int>, strike_rate <dbl>, dot_percent <dbl>,
+#> #   boundary_percent <dbl>, average <dbl>, median_dot_percent <dbl>,
+#> #   median_boundary_percent <dbl>, style <chr>
 ```
 
 ## Data
 
-Ball-by-ball data come from [Cricsheet](https://cricsheet.org), accessed through the [`cricketdata`](https://cran.r-project.org/package=cricketdata) R package, and are used under the [Open Data Commons Attribution License (ODC-BY 1.0)](https://opendatacommons.org/licenses/by/1-0/).
+Ball-by-ball data come from [Cricsheet](https://cricsheet.org), accessed
+through the
+[`cricketdata`](https://cran.r-project.org/package=cricketdata) R
+package, and are used under the [Open Data Commons Attribution License
+(ODC-BY 1.0)](https://opendatacommons.org/licenses/by/1-0/).
 
-The script `data-raw/wpl_batters.R` downloads the ball-by-ball records and summarises them to one row per batter, team and season. See `?wpl_batters` for a full description of every column.
+The script `data-raw/wpl_batters.R` downloads the ball-by-ball records
+and summarises them to one row per batter, team and season. See
+`?wpl_batters` for a full description of every column.
 
-**Interpret with care:** batting rates ignore
+**Interpret with care:** batting rates ignore batting position, match
+situation and opposition strength, and styles are defined relative to
+each season's median.
+
+## Learn more
+
+- [Using the WPL batting styles app](https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/articles/using-the-app.html):
+  a step-by-step guide to installing, launching, using and interpreting the app.
+- [Function and data reference](https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/reference/index.html)
+
+## Generative AI declaration
+
+I used GENAI while preparing this assignment.
+Specifically, I used it to:
+
+- set up the package structure, licence and `DESCRIPTION` file;
+- draft the roxygen2 documentation, this README, the vignette
+  (including the interpretation and limitations sections) and the
+  pkgdown configuration; 
+- diagnose errors, including an empty-repository push failure, a masked
+  function in my workspace that caused `filter()` to resolve to
+  `stats::filter()`, an app layout problem, and an incorrect
+  Bioconductor link on the pkgdown site.
+
+I ran and tested all code, checked the calculated figures
+against the package data, and confirmed that `devtools::check()` passes
+and the app works after installation from GitHub. I am responsible for
+all submitted work.
