@@ -2,3 +2,23 @@ url: https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/
 template:
   bootstrap: 5
 
+home:
+  sidebar:
+    structure: [links, license, citation, authors, dev]
+    components:
+      links:
+        title: Links
+        text: >
+          [Browse source code](https://github.com/ETC5523-2026/etc5523-assignment-4-vnay0004/)<br>
+          [Report a bug](https://github.com/ETC5523-2026/etc5523-assignment-4-vnay0004/issues)
+
+reference:
+  - title: Launch the app
+    contents:
+      - run_app
+  - title: Analyse batting styles
+    contents:
+      - batting_profile
+  - title: Data
+    contents:
+      - wpl_batters
