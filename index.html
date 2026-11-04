@@ -111,7 +111,27 @@
 </h2>
 <p>Ball-by-ball data come from <a href="https://cricsheet.org" class="external-link">Cricsheet</a>, accessed through the <a href="https://cran.r-project.org/package=cricketdata" class="external-link"><code>cricketdata</code></a> R package, and are used under the <a href="https://opendatacommons.org/licenses/by/1-0/" class="external-link">Open Data Commons Attribution License (ODC-BY 1.0)</a>.</p>
 <p>The script <code>data-raw/wpl_batters.R</code> downloads the ball-by-ball records and summarises them to one row per batter, team and season. See <code><a href="reference/wpl_batters.html">?wpl_batters</a></code> for a full description of every column.</p>
-<p><strong>Interpret with care:</strong> batting rates ignore</p>
+<p><strong>Interpret with care:</strong> batting rates ignore batting position, match situation and opposition strength, and styles are defined relative to each season’s median.</p>
+</div>
+<div class="section level2">
+<h2 id="learn-more">Learn more<a class="anchor" aria-label="anchor" href="#learn-more"></a>
+</h2>
+<ul>
+<li>
+<a href="https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/articles/using-the-app.html">Using the WPL batting styles app</a>: a step-by-step guide to installing, launching, using and interpreting the app.</li>
+<li><a href="https://etc5523-2026.github.io/etc5523-assignment-4-vnay0004/reference/index.html">Function and data reference</a></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="generative-ai-declaration">Generative AI declaration<a class="anchor" aria-label="anchor" href="#generative-ai-declaration"></a>
+</h2>
+<p>I used GENAI while preparing this assignment. Specifically, I used it to:</p>
+<ul>
+<li>set up the package structure, licence and <code>DESCRIPTION</code> file;</li>
+<li>draft the roxygen2 documentation, this README, the vignette (including the interpretation and limitations sections) and the pkgdown configuration;</li>
+<li>diagnose errors, including an empty-repository push failure, a masked function in my workspace that caused <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter()</a></code> to resolve to <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">stats::filter()</a></code>, an app layout problem, and an incorrect Bioconductor link on the pkgdown site.</li>
+</ul>
+<p>I ran and tested all code, checked the calculated figures against the package data, and confirmed that <code>devtools::check()</code> passes and the app works after installation from GitHub. I am responsible for all submitted work.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
