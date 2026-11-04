@@ -67,4 +67,65 @@ A suggested workflow for an analyst:
 
 ## Reading the outputs
 
-**The scatter plot** places each batter by dot-ball percentage (horizontal) and boundary percentage (vertical). The dashed lines are the league medians for the season, which
+**The scatter plot** places each batter by dot-ball percentage (horizontal) and boundary percentage (vertical). The dashed lines are the league medians for the season, which split the chart into four styles:
+
+| Region | Style | Meaning |
+|---|---|---|
+| Upper-left | Attacking | More boundaries, fewer dot balls than the median |
+| Lower-left | Rotator | Few boundaries, but keeps the strike moving |
+| Upper-right | Boundary-reliant | Hits boundaries but faces many dots |
+| Lower-right | Low tempo | Few boundaries and many dots |
+
+Colour and shape both show the style, so the chart does not rely on colour alone. Larger points faced more balls, so their percentages are more reliable. The five leading run-scorers are labelled.
+
+**The value boxes** summarise the current selection: how many batters qualify, who scored most runs, and how many are attacking.
+
+**The table** lists the ten leading run-scorers in the selection with their rates and style.
+
+## The same analysis without the app
+
+`batting_profile()` performs the calculation behind the app, so you can reproduce any view in your own code:
+
+```{r}
+profile_2025 <- batting_profile(wpl_batters, "2024/25", min_balls = 100)
+head(profile_2025[, c("batter", "batting_team", "runs",
+                      "dot_percent", "boundary_percent", "style")])
+```
+
+How many qualifying batters fall into each style?
+
+```{r}
+table(profile_2025$style)
+```
+
+Which batters were attacking?
+
+```{r}
+profile_2025$batter[profile_2025$style == "Attacking"]
+```
+
+## Interpreting a finding
+
+In the app, choose **2024/25**, **All teams** and a **minimum of 100 balls faced**. Seventeen batters qualify, and the league medians are 37.8% dot balls and 20.4% boundaries.
+
+Nat Sciver-Brunt stands out in the upper-left of the chart. She was the season's leading run-scorer (523 runs) and one of the most efficient: only 30% of her balls were dots, well below the league median, while 25.7% went for four or six. Among the top five scorers, only Ellyse Perry had a lower dot-ball rate (29.6%), but Perry hit boundaries far less often (20.4%, exactly the median). Sciver-Brunt therefore combined the most runs with both a low dot-ball rate and a high boundary rate, which is exactly the combination the app's question looks for.
+
+A high strike rate alone does not mean a batter avoids wasted balls. Shafali Verma struck at 153, slightly faster than Sciver-Brunt, but 42.7% of her balls were dots. She is labelled *Boundary-reliant*: she scores quickly through big hits but faces many scoreless balls in between.
+
+Switching seasons adds important context for an auction decision. Sciver-Brunt's 2023/24 season was much weaker (172 runs, 42.4% dots, 18.8% boundaries) before she returned to form in 2024/25 and stayed strong in 2025/26 (32.1% dots). An analyst should therefore weigh several seasons rather than rely on one.
+
+```{r}
+subset(wpl_batters, batter == "NR Sciver-Brunt",
+       c(season, runs, strike_rate, dot_percent, boundary_percent))
+```
+
+## Limitations
+
+- **Batting position is ignored.** Openers face the new ball and fielding restrictions, while finishers bat in the final overs when hitting out is expected. Placing them on the same chart can make some batters look better or worse than their role allows.
+- **Styles are relative, not absolute.** Each style is defined by the median of that season's qualifying batters, so "Low tempo" means slower than this season's league, not necessarily poor.
+- **Batters near the dashed lines can switch style easily.** In 2024/25, Ellyse Perry and Hayley Matthews both hit boundaries off exactly 20.4% of balls, the league median, so their labels depend on a single boundary. Treat the labels as a guide, not a verdict.
+- **Match situation and opposition strength are not captured.** A run scored chasing a large total against a strong bowling attack counts the same as one scored in an easy chase.
+
+## Data source
+
+Data come from [Cricsheet](https://cricsheet.org), accessed through the `cricketdata` package, and are used under the Open Data Commons Attribution License (ODC-BY 1.0). The preparation script is `data-raw/wpl_batters.R` in the package repository.
