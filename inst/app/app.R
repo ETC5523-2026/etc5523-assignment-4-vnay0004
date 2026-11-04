@@ -69,7 +69,7 @@ ui <- page_sidebar(
     card(
       full_screen = TRUE,
       card_header(textOutput("plot_title")),
-      plotOutput("style_plot", height = "480px"),
+      plotOutput("style_plot", height = "550px"),
       textOutput("sample_note"),
       card_footer("Dashed lines show the league median for the selected season,",
                   "among batters who meet the minimum balls faced.")
@@ -159,10 +159,10 @@ server <- function(input, output, session) {
       scale_y_continuous(labels = function(x) paste0(x, "%")) +
             labs(x = "Dot-ball % (lower is better)",
            y = "Boundary % (higher is better)",
-           colour = "Batting style", shape = "Batting style",
-           size = "Balls faced") +
+           colour = "Batting style", shape = "Batting style") +
+      guides(size = "none") +
       theme_minimal(base_size = 15) +
-      theme(legend.position = "bottom", legend.box = "vertical",
+      theme(legend.position = "bottom",
             panel.grid.minor = element_blank())
   })
 
