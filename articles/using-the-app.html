@@ -154,7 +154,152 @@ sit.</li>
 </h2>
 <p><strong>The scatter plot</strong> places each batter by dot-ball
 percentage (horizontal) and boundary percentage (vertical). The dashed
-lines are the league medians for the season, which</p>
+lines are the league medians for the season, which split the chart into
+four styles:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Region</th>
+<th>Style</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Upper-left</td>
+<td>Attacking</td>
+<td>More boundaries, fewer dot balls than the median</td>
+</tr>
+<tr class="even">
+<td>Lower-left</td>
+<td>Rotator</td>
+<td>Few boundaries, but keeps the strike moving</td>
+</tr>
+<tr class="odd">
+<td>Upper-right</td>
+<td>Boundary-reliant</td>
+<td>Hits boundaries but faces many dots</td>
+</tr>
+<tr class="even">
+<td>Lower-right</td>
+<td>Low tempo</td>
+<td>Few boundaries and many dots</td>
+</tr>
+</tbody>
+</table>
+<p>Colour and shape both show the style, so the chart does not rely on
+colour alone. Larger points faced more balls, so their percentages are
+more reliable. The five leading run-scorers are labelled.</p>
+<p><strong>The value boxes</strong> summarise the current selection: how
+many batters qualify, who scored most runs, and how many are
+attacking.</p>
+<p><strong>The table</strong> lists the ten leading run-scorers in the
+selection with their rates and style.</p>
+</div>
+<div class="section level2">
+<h2 id="the-same-analysis-without-the-app">The same analysis without the app<a class="anchor" aria-label="anchor" href="#the-same-analysis-without-the-app"></a>
+</h2>
+<p><code><a href="../reference/batting_profile.html">batting_profile()</a></code> performs the calculation behind the
+app, so you can reproduce any view in your own code:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">profile_2025</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/batting_profile.html">batting_profile</a></span><span class="op">(</span><span class="va">wpl_batters</span>, <span class="st">"2024/25"</span>, min_balls <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">profile_2025</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"batter"</span>, <span class="st">"batting_team"</span>, <span class="st">"runs"</span>,</span>
+<span>                      <span class="st">"dot_percent"</span>, <span class="st">"boundary_percent"</span>, <span class="st">"style"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   batter          batting_team           runs dot_percent boundary_percent style</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> NR Sciver-Brunt Mumbai Indians          523        30               25.7 Atta…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> EA Perry        Royal Challengers Be…   372        29.6             20.4 Atta…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> HK Matthews     Mumbai Indians          307        48               20.4 Boun…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Shafali Verma   Delhi Capitals          304        42.7             25.1 Boun…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> H Kaur          Mumbai Indians          302        36.4             25.1 Atta…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> MM Lanning      Delhi Capitals          276        45.3             19.8 Low …</span></span></code></pre></div>
+<p>How many qualifying batters fall into each style?</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">profile_2025</span><span class="op">$</span><span class="va">style</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;        Attacking Boundary-reliant        Low tempo          Rotator </span></span>
+<span><span class="co">#&gt;                5                4                5                3</span></span></code></pre></div>
+<p>Which batters were attacking?</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">profile_2025</span><span class="op">$</span><span class="va">batter</span><span class="op">[</span><span class="va">profile_2025</span><span class="op">$</span><span class="va">style</span> <span class="op">==</span> <span class="st">"Attacking"</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] "NR Sciver-Brunt" "EA Perry"        "H Kaur"          "A Gardner"      </span></span>
+<span><span class="co">#&gt; [5] "RM Ghosh"</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="interpreting-a-finding">Interpreting a finding<a class="anchor" aria-label="anchor" href="#interpreting-a-finding"></a>
+</h2>
+<p>In the app, choose <strong>2024/25</strong>, <strong>All
+teams</strong> and a <strong>minimum of 100 balls faced</strong>.
+Seventeen batters qualify, and the league medians are 37.8% dot balls
+and 20.4% boundaries.</p>
+<p>Nat Sciver-Brunt stands out in the upper-left of the chart. She was
+the season’s leading run-scorer (523 runs) and one of the most
+efficient: only 30% of her balls were dots, well below the league
+median, while 25.7% went for four or six. Among the top five scorers,
+only Ellyse Perry had a lower dot-ball rate (29.6%), but Perry hit
+boundaries far less often (20.4%, exactly the median). Sciver-Brunt
+therefore combined the most runs with both a low dot-ball rate and a
+high boundary rate, which is exactly the combination the app’s question
+looks for.</p>
+<p>A high strike rate alone does not mean a batter avoids wasted balls.
+Shafali Verma struck at 153, slightly faster than Sciver-Brunt, but
+42.7% of her balls were dots. She is labelled <em>Boundary-reliant</em>:
+she scores quickly through big hits but faces many scoreless balls in
+between.</p>
+<p>Switching seasons adds important context for an auction decision.
+Sciver-Brunt’s 2023/24 season was much weaker (172 runs, 42.4% dots,
+18.8% boundaries) before she returned to form in 2024/25 and stayed
+strong in 2025/26 (32.1% dots). An analyst should therefore weigh
+several seasons rather than rely on one.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">wpl_batters</span>, <span class="va">batter</span> <span class="op">==</span> <span class="st">"NR Sciver-Brunt"</span>,</span>
+<span>       <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">season</span>, <span class="va">runs</span>, <span class="va">strike_rate</span>, <span class="va">dot_percent</span>, <span class="va">boundary_percent</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 5</span></span></span>
+<span><span class="co">#&gt;   season   runs strike_rate dot_percent boundary_percent</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2022/23   332        140.        36.7             22.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2023/24   172        119.        42.4             18.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2024/25   523        152.        30               25.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2025/26   321        151.        32.1             24.5</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
+</h2>
+<ul>
+<li>
+<strong>Batting position is ignored.</strong> Openers face the new
+ball and fielding restrictions, while finishers bat in the final overs
+when hitting out is expected. Placing them on the same chart can make
+some batters look better or worse than their role allows.</li>
+<li>
+<strong>Styles are relative, not absolute.</strong> Each style is
+defined by the median of that season’s qualifying batters, so “Low
+tempo” means slower than this season’s league, not necessarily
+poor.</li>
+<li>
+<strong>Batters near the dashed lines can switch style
+easily.</strong> In 2024/25, Ellyse Perry and Hayley Matthews both hit
+boundaries off exactly 20.4% of balls, the league median, so their
+labels depend on a single boundary. Treat the labels as a guide, not a
+verdict.</li>
+<li>
+<strong>Match situation and opposition strength are not
+captured.</strong> A run scored chasing a large total against a strong
+bowling attack counts the same as one scored in an easy chase.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="data-source">Data source<a class="anchor" aria-label="anchor" href="#data-source"></a>
+</h2>
+<p>Data come from <a href="https://cricsheet.org" class="external-link">Cricsheet</a>,
+accessed through the <code>cricketdata</code> package, and are used
+under the Open Data Commons Attribution License (ODC-BY 1.0). The
+preparation script is <code>data-raw/wpl_batters.R</code> in the package
+repository.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
